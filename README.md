@@ -1,10 +1,8 @@
 # nepse-api
 
-Unofficial, dependency-free Python client for public market data on
-[nepalstock.com.np](https://nepalstock.com.np).
+Five years ago, other developers and I were building a Python module that fetched NEPSE data from [nepalstock.com.np](https://nepalstock.com.np). That client was published as [nepse on PyPI](https://pypi.org/project/nepse/). It stopped working when Nepal Stock Exchange added a WebAssembly step to the anonymous session token, and we could not get around it.
 
-No login, no account, no API key, and no third-party runtime. The client
-keeps its own short-lived session and refreshes it when needed.
+This repository is a new client for the same public site. A DeepSeek model worked out how those tokens are minted; the write-up is in [REA.md](REA.md). The package itself is dependency-free: no login, no account, no API key, and no third-party runtime. It keeps a short-lived session and refreshes it when needed.
 
 ```python
 from nepseapi import NepseClient
@@ -16,13 +14,33 @@ with NepseClient() as client:
     print(client.top_gainers()[0].symbol)
 ```
 
-## Install
+## Install from git
+
+Python 3.11 or newer. There are no runtime dependencies. This package is not published on PyPI yet, and it is separate from the older [`nepse`](https://pypi.org/project/nepse/) project (`import nepseapi`, not `import nepse`).
+
+Clone the repository and install it into the environment you want to use:
 
 ```bash
-pip install nepse-api            # from a checkout: pip install -e .
+git clone <repo-url> nepse-api
+cd nepse-api
+python -m venv .venv
+source .venv/bin/activate
+pip install .
 ```
 
-Python 3.11 or newer. No runtime dependencies.
+On Windows, activate with `.venv\Scripts\activate` instead of `source`.
+
+To install straight from the git URL, without a manual clone:
+
+```bash
+pip install "nepse-api @ git+<repo-url>"
+```
+
+Use `pip install -e .` from a checkout when you want edits in this tree to show up immediately. For tests, install the dev extra:
+
+```bash
+pip install -e '.[dev]'
+```
 
 ## What you can do
 
